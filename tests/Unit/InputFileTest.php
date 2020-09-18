@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class InputFileTest extends TestCase
 {
-    public function testTestWorks()
+    public function inputFileExists()
     {
         $this->assertTrue(true);
     }
