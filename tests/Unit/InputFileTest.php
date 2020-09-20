@@ -11,7 +11,7 @@ class InputFileTest extends TestCase
     
     public function testFileReadWithJSON()
     {
-        $filePath = __DIR__ . '/test_hotels.json';
+        $filePath = __DIR__ . '/../data/test_hotels.json';
         $file = new File($filePath);
         $data = FileConverter::read($file);
         $this->assertIsArray($data);
@@ -20,10 +20,18 @@ class InputFileTest extends TestCase
 
     public function testFileReadWithXML()
     {
-        $filePath = __DIR__ . '/test_hotels.xml';
+        $filePath = __DIR__ . '/../data/test_hotels.xml';
         $file = new File($filePath);
         $data = FileConverter::read($file);
         $this->assertIsArray($data);
         $this->assertCount(15, $data);
+    }
+
+    public function testFileReadWithUnsupportedFormat()
+    {
+        $this->expectException(\Exception::class);
+        $filePath = __DIR__ . '/../data/test_hotels.yaml';
+        $file = new File($filePath);
+        $data = FileConverter::read($file);
     }
 }
