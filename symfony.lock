@@ -106,6 +106,12 @@
     "sebastian/version": {
         "version": "3.0.1"
     },
+    "symfony/mime": {
+        "version": "v5.1.5"
+    },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.18.1"
+    },
     "theseer/tokenizer": {
         "version": "1.2.0"
     },
