@@ -38,14 +38,21 @@ class InputFileTest extends TestCase
     public function testASCIIOnlyString()
     {
         $hotelName = 'The Gibson';
-        $response = FileConverter::isAscii();
+        $response = FileConverter::isAscii($hotelName);
         $this->assertTrue($response);
     }
 
     public function testNonASCIIString()
     {
         $hotelName = 'The GibsonÝ';
-        $response = FileConverter::isAscii();
+        $response = FileConverter::isAscii($hotelName);
+        $this->assertFalse($response);
+    }
+
+    public function testNegativeRating()
+    {
+        $stars = -3;
+        $response = FileConverter::checkRating($stars);
         $this->assertFalse($response);
     }
 }
