@@ -55,4 +55,9 @@ class FileConverter
 
         return $data;
     }
+
+    public static function isAscii(string $str)
+    {
+        return mb_check_encoding($str, 'ASCII');
+    }
 }
