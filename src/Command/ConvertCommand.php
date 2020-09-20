@@ -22,7 +22,11 @@ class ConvertCommand extends Command
 
     protected function configure()
     {
-        $this->addArgument('filename', InputArgument::REQUIRED, 'Filename to convert.');
+        $this
+            ->setDescription('Converts a file and its contents to CSV')
+            ->setHelp('This command helps you convert a JSON or XML file to CSV')
+            ->addArgument('filename', InputArgument::REQUIRED, 'Filename to convert.')
+            ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
