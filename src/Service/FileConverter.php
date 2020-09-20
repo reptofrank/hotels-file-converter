@@ -6,6 +6,27 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class FileConverter
 {
+    private $rootPath;
+
+    function __construct($rootPath) {
+        $this->rootPath = $rootPath;
+    }
+
+    /**
+     * Convert 
+     */
+    public function convert(string $filename)
+    {
+        $inputFile = new File($filename);
+        $data = self::read($inputFile);
+
+        foreach ($data as $index => $hotel) {
+            
+        }
+
+        return true;
+    }
+
     /**
      * Decode file contents and return as array
      * @param File $file 

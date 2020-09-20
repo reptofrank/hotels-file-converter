@@ -27,8 +27,8 @@ class ConvertCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $converter = new FileConverter($input->getArgument('filename'));
-        $output->writeln($converter->convert($input->getArgument('filename')));
+        $response = $this->fileConverter->convert($input->getArgument('filename'));
+        $output->writeln($response ? "File converted successfully: $response" : "Unknown error occured");
         return Command::SUCCESS;
     }
 }
