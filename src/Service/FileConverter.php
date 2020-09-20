@@ -56,8 +56,23 @@ class FileConverter
         return $data;
     }
 
+    /**
+     * Check if string contains only ASCII characters
+     * @param string $str
+     * @return bool
+     */
     public static function isAscii(string $str)
     {
         return mb_check_encoding($str, 'ASCII');
+    }
+
+    /**
+     * Check to rating is between 0 and 5
+     * @param int $stars rating
+     * @return bool
+     */
+    public static function checkRating(int $stars)
+    {
+        return $stars >= 0 && $stars <= 5;
     }
 }

@@ -55,4 +55,21 @@ class InputFileTest extends TestCase
         $response = FileConverter::checkRating($stars);
         $this->assertFalse($response);
     }
+    
+    /**
+     * @dataProvider provideUrls
+     */
+    public function testInvalidUrl($url)
+    {
+        $response = FileConverter::isUrlValid($url);
+        $this->assertFalse($response);
+    }
+
+    public function provideUrls()
+    {
+        return [
+            ['www.trivago.com'],
+            ['trivago.com'],
+        ];
+    }
 }
