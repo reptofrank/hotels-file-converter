@@ -24,7 +24,7 @@ class FileConverter
             
         }
 
-        return true;
+        return $data;
     }
 
     /**
