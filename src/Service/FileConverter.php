@@ -75,4 +75,21 @@ class FileConverter
     {
         return $stars >= 0 && $stars <= 5;
     }
+
+    /**
+     * Validate URL 
+     * A valid URL must the following in order: 
+     * 1: a protocol (http:// or https://)
+     * 2: a hostname (optional)
+     * 3: a domain name which can contain alphanumeric characters and/or a hyphen only
+     * 4: tld
+     * 
+     * @param string $url
+     * @return bool
+     */
+    public static function isUrlValid(string $url)
+    {
+        $urlRegex = '/^(http(s?)):\/\/([a-zA-Z0-9]+\.)?[a-zA-Z0-9-]+\.[a-z]{2,6}\//';
+        return preg_match($urlRegex, $url);
+    }
 }
