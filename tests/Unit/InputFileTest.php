@@ -11,7 +11,7 @@ class InputFileTest extends TestCase
     
     public function testFileReadWithJSON()
     {
-        $filePath = __DIR__ . '/hotels.json';
+        $filePath = __DIR__ . '/test_hotels.json';
         $file = new File($filePath);
         $data = FileConverter::read($file);
         $this->assertIsArray($data);
@@ -20,7 +20,7 @@ class InputFileTest extends TestCase
 
     public function testFileReadWithXML()
     {
-        $filePath = __DIR__ . '/hotels.xml';
+        $filePath = __DIR__ . '/test_hotels.xml';
         $file = new File($filePath);
         $data = FileConverter::read($file);
         $this->assertIsArray($data);
