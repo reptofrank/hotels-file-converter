@@ -21,8 +21,10 @@ class FileConverter
     {
         $inputFile = new File($filename);
         $data = self::read($inputFile);
+        $ext = $inputFile->getExtension();
 
-        $outputFilePath = $this->rootPath . '/var/out/' . $inputFile->getBasename('.' . $inputFile->getExtension()) . '.csv';
+        $outputFolder = $this->rootPath . '/var/out/';
+        $outputFilePath = $outputFolder . $inputFile->getBasename('.' . $ext) . '_' . $ext . '.csv';
         $fh = fopen($outputFilePath, 'w');
 
         // Write CSV header
