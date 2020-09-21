@@ -98,10 +98,10 @@ class FileConverter
 
     /**
      * Validate URL 
-     * A valid URL must the following in order: 
+     * A valid URL must follow the order: 
      * 1: a protocol (http:// or https://)
      * 2: a hostname (optional)
-     * 3: a domain name which can contain alphanumeric characters and/or a hyphen only
+     * 3: a domain name which can contain alphanumeric characters and a hyphen only
      * 4: tld
      * 
      * @param string $url
