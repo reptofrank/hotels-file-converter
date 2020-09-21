@@ -13,18 +13,31 @@ class FileConverter
     }
 
     /**
-     * Convert 
+     * Convert file with its content to CSV
+     * @param string $filename
+     * @return string
      */
     public function convert(string $filename)
     {
         $inputFile = new File($filename);
         $data = self::read($inputFile);
 
-        foreach ($data as $index => $hotel) {
-            
+        $outputFilePath = $this->rootPath . '/var/out/' . $inputFile->getBasename('.' . $inputFile->getExtension()) . '.csv';
+        $fh = fopen($outputFilePath, 'w');
+
+        // Write CSV header
+        fputcsv($fh, array_keys($data[0]));
+
+        foreach ($data as $hotel) {
+            // Skip hotels with invalid information
+            if($this->validateHotelData($hotel)) {
+                fputcsv($fh, array_values($hotel));
+            }
         }
 
-        return $data;
+        fclose($fh);
+
+        return $outputFilePath;
     }
 
     /**
@@ -54,6 +67,11 @@ class FileConverter
         }
 
         return $data;
+    }
+
+    public function validateHotelData($data)
+    {
+        return self::isAscii($data['name']) && self::checkRating($data['stars']) && self::isUrlValid($data['uri']);
     }
 
     /**
@@ -90,6 +108,6 @@ class FileConverter
     public static function isUrlValid(string $url)
     {
         $urlRegex = '/^(http(s?)):\/\/([a-zA-Z0-9]+\.)?[a-zA-Z0-9-]+\.[a-z]{2,6}\//';
-        return preg_match($urlRegex, $url);
+        return preg_match($urlRegex, $url) ? true : false;
     }
 }

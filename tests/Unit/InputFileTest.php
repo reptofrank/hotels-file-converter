@@ -8,10 +8,9 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class InputFileTest extends TestCase
 {
-    
     public function testFileReadWithJSON()
     {
-        $filePath = __DIR__ . '/../data/test_hotels.json';
+        $filePath = __DIR__ . '/hotels.json';
         $file = new File($filePath);
         $data = FileConverter::read($file);
         $this->assertIsArray($data);
@@ -20,7 +19,7 @@ class InputFileTest extends TestCase
 
     public function testFileReadWithXML()
     {
-        $filePath = __DIR__ . '/../data/test_hotels.xml';
+        $filePath = __DIR__ . '/hotels.xml';
         $file = new File($filePath);
         $data = FileConverter::read($file);
         $this->assertIsArray($data);
@@ -29,47 +28,71 @@ class InputFileTest extends TestCase
 
     public function testFileReadWithUnsupportedFormat()
     {
-        $this->expectException(\Exception::class);
-        $filePath = __DIR__ . '/../data/test_hotels.yaml';
+        $filePath = __DIR__ . '/hotels.xml';
         $file = new File($filePath);
         $data = FileConverter::read($file);
+        $this->assertIsArray($data);
+        $this->assertCount(15, $data);
     }
 
-    public function testASCIIOnlyString()
+    public function testHotelValidationWithValidInformation()
     {
-        $hotelName = 'The Gibson';
-        $response = FileConverter::isAscii($hotelName);
-        $this->assertTrue($response);
+        $hotel = [
+            "name" => "The Gibson",
+            "address" => "63847 Lowe Knoll, East Maxine, WA 97030-4876",
+            "stars" => "5",
+            "contact" => "Dr. Sinda Wyman",
+            "phone" => "1-270-665-9933x1626",
+            "uri" => "http://www.paucek.com/search.htm"
+        ];
+
+        $response = FileConverter::validateHotelData($hotel);
+        $this->assertEquals(true, $response);
     }
 
-    public function testNonASCIIString()
+    public function testHotelValidationWithInvalidName()
     {
-        $hotelName = 'The GibsonÝ';
-        $response = FileConverter::isAscii($hotelName);
-        $this->assertFalse($response);
+        $hotel = [
+            "name" => "The GibsonÝ",
+            "address" => "63847 Lowe Knoll, East Maxine, WA 97030-4876",
+            "stars" => "5",
+            "contact" => "Dr. Sinda Wyman",
+            "phone" => "1-270-665-9933x1626",
+            "uri" => "http://www.paucek.com/search.htm"
+        ];
+
+        $response = FileConverter::validateHotelData($hotel);
+        $this->assertEquals(false, $response);
     }
 
-    public function testNegativeRating()
+    public function testHotelValidationWithInvalidRating()
     {
-        $stars = -3;
-        $response = FileConverter::checkRating($stars);
-        $this->assertFalse($response);
+        $hotel = [
+            "name" => "The Gibson",
+            "address" => "63847 Lowe Knoll, East Maxine, WA 97030-4876",
+            "stars" => "-2",
+            "contact" => "Dr. Sinda Wyman",
+            "phone" => "1-270-665-9933x1626",
+            "uri" => "http://www.paucek.com/search.htm"
+        ];
+
+        $response = FileConverter::validateHotelData($hotel);
+        $this->assertEquals(false, $response);
+    }
+
+    public function testHotelValidationWithInvalidUrl()
+    {
+        $hotel = [
+            "name" => "The Gibson",
+            "address" => "63847 Lowe Knoll, East Maxine, WA 97030-4876",
+            "stars" => "5",
+            "contact" => "Dr. Sinda Wyman",
+            "phone" => "1-270-665-9933x1626",
+            "uri" => "www.paucek.com/search.htm"
+        ];
+
+        $response = FileConverter::validateHotelData($hotel);
+        $this->assertEquals(false, $response);
     }
     
-    /**
-     * @dataProvider provideUrls
-     */
-    public function testInvalidUrl($url)
-    {
-        $response = FileConverter::isUrlValid($url);
-        $this->assertFalse($response);
-    }
-
-    public function provideUrls()
-    {
-        return [
-            ['www.trivago.com'],
-            ['trivago.com'],
-        ];
-    }
 }
